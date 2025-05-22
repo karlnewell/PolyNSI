@@ -15,8 +15,8 @@ image:
     - "-Djavax.net.ssl.keyStoreType=jks"
     - "-Djavax.net.ssl.trustStorePassword=secret"
     - "-Djavax.net.ssl.keyStorePassword=secret"
-    - "-Djavax.net.ssl.trustStore=/usr/local/etc/polynsi/polynsi-truststore.jks"
-    - "-Djavax.net.ssl.keyStore=/usr/local/etc/polynsi/polynsi-keystore.jks"
+    - "-Djavax.net.ssl.trustStore=/usr/local/etc/polynsi/trust/polynsi-truststore.jks"
+    - "-Djavax.net.ssl.keyStore=/usr/local/etc/polynsi/certs/polynsi-keystore.jks"
     - "-jar"
     - "polynsi.jar"
 imagePullSecrets: []
@@ -86,6 +86,16 @@ persistence:
   accessModes:
     - ReadWriteOnce
   size: 1Gi
+
+keystore:
+  enabled: false
+  mountPath: /usr/local/etc/polynsi/certs
+  secretName: polynsi-keystore
+
+truststore:
+  enabled: false
+  mountPath: /usr/local/etc/polynsi/trust
+  secretName: polynsi-truststore
 
 config:
   # either read config files from folder or use inline data, filesGlob takes precedence over inline.

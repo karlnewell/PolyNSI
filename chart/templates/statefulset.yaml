@@ -69,8 +69,18 @@ spec:
               subPath: {{ .Values.persistence.subPath }}
           {{- end }}
             - name: config
-              mountPath: "/usr/local/etc/polynsi"
+              mountPath: "/usr/local/etc/polynsi/"
               readOnly: true
+          {{- if .Values.keystore.enabled }}
+            - name: keystore
+              mountPath: {{ .Values.keystore.mountPath }}
+              readOnly: true
+          {{- end }}
+          {{- if .Values.truststore.enabled }}
+            - name: truststore
+              mountPath: {{ .Values.truststore.mountPath }}
+              readOnly: true
+          {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -87,6 +97,11 @@ spec:
         - name: config
           configMap:
             name: {{ printf "%s-config" (include "PolyNSI.fullname" .) }}
+      {{- if .Values.keystore.enabled }}
+        - name: keystore
+          secret:
+            secretName: {{ .Values.keystore.secretName }}
+      {{- end }}
 {{- if .Values.persistence.enabled }}
   volumeClaimTemplates:
     - metadata:

@@ -98,6 +98,8 @@ truststore:
   secretName: polynsi-truststore
 
 config:
+  # set to true to prevent helm from overwriting manual changes to configmap
+  keep: false
   # either read config files from folder or use inline data, filesGlob takes precedence over inline.
   #filesGlob: "config/*"
   inline: |-
